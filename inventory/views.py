@@ -77,7 +77,7 @@ class InventoryViewSet(viewsets.ModelViewSet):
 
         @action(detail=False, methods=["get"])
         def get_avail_stock(self, request, *args, **kwargs):
-            queryset = Inventory.objects.select_related("product").filter(is_hold=False,inventory__gt=0).order_by("-inventory")
+            queryset = Inventory.objects.select_related("product").filter(is_hold=False,is_locked=False,inventory__gt=0).order_by("-inventory")
             serializers = GetStockSerializer(queryset, many=True)
             return Response(serializers.data, status=status.HTTP_200_OK)
             
